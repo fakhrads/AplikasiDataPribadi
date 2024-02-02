@@ -39,13 +39,14 @@ public class DataPribadiController {
 
     @PostMapping("/tambah/simpan")
     public String createData(DataPribadi data, RedirectAttributes ra) {
-        if (service.isNikExist(data.getNik())) {
-           ra.addFlashAttribute("error", "NIK already exists. Please use a different one.");
-        } else {
-           service.save(data);
-           ra.addFlashAttribute("message", "The user has been saved successfully.");
-       }
-       return "redirect:/";
+        try {
+            DataPribadi existingData = service.get(data.getNik());
+            ra.addFlashAttribute("error", "NIK already exists. Please use a different one.");
+        } catch (DataPribadiExecption ex) {
+            service.save(data);
+            ra.addFlashAttribute("message", "The user has been saved successfully.");
+        }
+        return "redirect:/";
     }
 
     @GetMapping("/edit/{nik}")
