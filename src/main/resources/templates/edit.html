@@ -16,7 +16,7 @@
 <div class="container-fluid">
   <div class="text-center"><h2>[[${pageTitle}]]</h2></div>
 
-  <form th:action="@{/tambah/simpan}" method="post" th:object="${data}"
+  <form th:action="@{/edituser/simpan}" method="post" th:object="${data}"
         style="max-width: 500px; margin: 0 auto;">
     <div class="border border-secondary rounded p-3">
       <div class="form-group row">
@@ -34,7 +34,7 @@
       <div class="form-group row">
         <label class="col-form-label">Tanggal Lahir:</label>
         <div class="col-sm-12">
-          <input type="date" th:field="*{tanggalLahir}" class="form-control" required minlength="2" maxlength="45" />
+          <input type="date" onchange="validateDate()" th:field="*{tanggalLahir}" class="form-control" required />
         </div>
       </div>
       <div class="form-group row">
@@ -58,7 +58,7 @@
       <div class="form-group row">
         <label class="col-form-label">Alamat:</label>
         <div class="col-sm-12">
-          <input type="text" th:field="*{alamat}" class="form-control" required minlength="5" maxlength="15" />
+          <input type="text" th:field="*{alamat}" class="form-control" required minlength="10" maxlength="150" />
         </div>
       </div>
       <div class="form-group row">
@@ -66,9 +66,27 @@
         <div class="col-sm-12">
           <select class="form-select" id="negara" name="negara">
             <option selected disabled>Pilih Negara</option>
-            <option value="indonesia">Indonesia</option>
-            <option value="malaysia">Malaysia</option>
-            <option value="singapura">Singapura</option>
+            <option value="Indonesia">Indonesia</option>
+            <option value="Malaysia">Malaysia</option>
+            <option value="Singapura">Singapura</option>
+            <option value="Brunei">Brunei</option>
+            <option value="Thailand">Thailand</option>
+            <option value="Filipina">Filipina</option>
+            <option value="Vietnam">Vietnam</option>
+            <option value="Kamboja">Kamboja</option>
+            <option value="Laos">Laos</option>
+            <option value="Myanmar">Myanmar</option>
+            <option value="Timor Leste">Timor Leste</option>
+            <option value="Lao">Lao</option>
+            <option value="Mongolia">Mongolia</option>
+            <option value="Korea">Korea</option>
+            <option value="Amerika Serikat">Amerika Serikat</option>
+            <option value="Kanada">Kanada</option>
+            <option value="Britania Raya">Britania Raya</option>
+            <option value="Jerman">Jerman</option>
+            <option value="Prancis">Prancis</option>
+            <option value="Italia">Italia</option>
+            <option value="Argentina">Argentina</option>
 
           </select>
         </div>
@@ -92,6 +110,17 @@
 <script type="text/javascript">
     function cancelForm() {
         window.location = "[[@{/}]]";
+    }
+</script>
+<script>
+    function validateDate() {
+        var selectedDate = new Date(document.getElementById("inputDate").value);
+        var today = new Date();
+
+        if(selectedDate > today) {
+            alert('Tanggal tidak boleh melebihi hari ini');
+            document.getElementById('inputDate').value = "";
+        }
     }
 </script>
 </body>

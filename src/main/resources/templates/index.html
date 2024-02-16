@@ -37,8 +37,11 @@
         </div>
       </div>
     </div>
-    <div th:if="${message}" class="alert alert-success text-center">
+    <div th:if="${message}" class="alert alert-success  text-center">
       [[${message}]]
+    </div>
+    <div th:if="${error}" class="alert alert-danger text-center">
+      [[${error}]]
     </div>
     <div class="card">
       <div class="card-body">
@@ -49,8 +52,8 @@
             <th>NIK</th>
             <th>Nama</th>
             <th>Umur</th>
-            <th>Tanggal Lahir</th>
             <th>Jenis Kelamin</th>
+            <th>Tanggal Lahir</th>
             <th>Alamat</th>
             <th>Negara</th>
             <th>Action</th>
@@ -63,12 +66,13 @@
               <td>[[${user.nik}]]</td>
               <td>[[${user.namaLengkap}]]</td>
               <td>[[${user.umur}]]</td>
-              <td>[[${user.jenisKelamin}]]</td>
+              <td th:class="${user.jenisKelamin == 'Laki-laki' ? 'bg-primary' : 'bg-danger'}">[[${user.jenisKelamin}]]</td>
               <td>[[${user.tanggalLahir}]]</td>
               <td>[[${user.alamat}]]</td>
               <td>[[${user.negara}]]</td>
               <td>
-                <a class="h4 mr-3" th:href="@{'/edit/' + ${user.nik}}">Edit</a>
+                <a class="btn btn-primary" th:href="@{'/edit/' + ${user.nik}}">Edit</a>
+                <a class="btn btn-info"  th:href="@{'/view/' + ${user.nik}}">View</a>
                 <!-- Loop through your list of users -->
                     <button type="button" class="btn btn-danger" data-bs-toggle="modal" th:data-bs-target="'#deleteModal-' + ${user.nik}">
                       Delete
