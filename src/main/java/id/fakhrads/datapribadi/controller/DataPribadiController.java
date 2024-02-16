@@ -39,8 +39,13 @@ public class DataPribadiController {
 
     @PostMapping("/edituser/simpan")
     public String createData(DataPribadi data, RedirectAttributes ra) {
-        service.save(data);
-        ra.addFlashAttribute("message", "The user has been saved successfully.");
+        try {
+            DataPribadi existingData = service.get(data.getNik());
+            ra.addFlashAttribute("error", "NIK already exists. Please use a different one.");
+        } catch (DataPribadiExecption ex) {
+            service.save(data);
+            ra.addFlashAttribute("message", "The user has been saved successfully.");
+        }
         return "redirect:/";
     }
 
@@ -76,6 +81,20 @@ public class DataPribadiController {
             DataPribadi data = service.get(nik);
             model.addAttribute("data", data);
             model.addAttribute("pageTitle", "Edit User (ID: " + nik + ")");
+
+            return "edit";
+        } catch (DataPribadiExecption e) {
+            ra.addFlashAttribute("message", e.getMessage());
+            return "redirect:/";
+        }
+    }
+
+    @GetMapping("/view/{nik}")
+    public String showViewForm(@PathVariable("nik") Long nik, Model model, RedirectAttributes ra) {
+        try {
+            DataPribadi data = service.get(nik);
+            model.addAttribute("data", data);
+            model.addAttribute("pageTitle", "View User (ID: " + nik + ")");
 
             return "edit";
         } catch (DataPribadiExecption e) {
